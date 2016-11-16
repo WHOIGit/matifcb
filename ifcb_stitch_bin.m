@@ -1,4 +1,9 @@
-function out_bin = ifcb_stitch_bin(in_bin)
+function out_bin = ifcb_stitch_bin(in_bin, infill)
+    if nargin < 2
+        infill = 1;
+    elseif strcmp(infill,'noinfill')
+        infill = 0;
+    end
 
     cols = ifcb_columns('I');
 
@@ -32,7 +37,7 @@ function out_bin = ifcb_stitch_bin(in_bin)
     targ = 11;
     
     % cell array to hold result images
-    images = cell(len,1);
+    images = in_bin.images;
     
     % consider only targets where trigger is the same
     coo = coo(coo(:, a.trig)==coo(:, b.trig),:);
@@ -94,9 +99,17 @@ function out_bin = ifcb_stitch_bin(in_bin)
             im(ry1+1:ry2, rx1+1:rx2) = target_img;
         end
         
+        % now infill the image unless noinfill is specified
+        if infill
+            im = ifcb_infill_image(im);
+        end
         images{target} = im;
+        images{target+1} = [];
     end
+        
+    stitched_ix = int64(coo(:, targ));
     
     out_bin = struct();
+    out_bin.stitched = stitched_ix;
     out_bin.images = images;
 end
