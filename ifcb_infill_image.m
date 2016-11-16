@@ -18,4 +18,6 @@ function out_im = ifcb_infill_image(in_im)
     
     % fill nans with computed infill
     out_im(isnan(in_im)) = m;
+    
+    out_im = uint8(out_im);
 end
