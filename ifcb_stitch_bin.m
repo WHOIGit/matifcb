@@ -62,15 +62,18 @@ function out_bin = ifcb_stitch_bin(in_bin)
     coo(:, s.x2) = max(coo(:, a.x2), coo(:, b.x2));
     coo(:, s.y2) = max(coo(:, a.y2), coo(:, b.y2));
     
+    % now stitch, leaving NaNs where there is no data
     for i=1:len
         target = coo(i, targ);
         row = coo(i, :);
         
+        % create appropriate size empty image
         w = row(s.x2) - row(s.x1);
         h = row(s.y2) - row(s.y1);
         
-        im = zeros(h, w);
+        im = NaN(h, w);
         
+        % for each of the two adjacent ROIs
         for j=1:2
             if j==1
                 ab = a;
@@ -80,11 +83,13 @@ function out_bin = ifcb_stitch_bin(in_bin)
                 t = target+1;
             end
             
+            % compute location in stitched box
             rx1 = row(ab.x1) - row(s.x1);
             ry1 = row(ab.y1) - row(s.y1);
             rx2 = rx1 + row(ab.x2) - row(ab.x1);
             ry2 = ry1 + row(ab.y2) - row(ab.y1);
             
+            % fetch image from bin and composite it
             target_img = in_bin.images{t};
             im(ry1+1:ry2, rx1+1:rx2) = target_img;
         end
