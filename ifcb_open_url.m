@@ -5,9 +5,13 @@ function bin = ifcb_open_url(url)
     roi_url = [namespace '/' lid '.roi'];
     hdr_url = [namespace '/' lid '.hdr'];
     
-    adc_path = [tempdir filesep lid '.adc'];
-    roi_path = [tempdir filesep lid '.roi'];
-    hdr_path = [tempdir filesep lid '.hdr'];
+    bin_dir = tempname;
+    
+    mkdir(bin_dir);
+    
+    adc_path = [bin_dir filesep lid '.adc'];
+    roi_path = [bin_dir filesep lid '.roi'];
+    hdr_path = [bin_dir filesep lid '.hdr'];
     
     function delfiles()
         if exist(hdr_path,'file')
@@ -19,6 +23,8 @@ function bin = ifcb_open_url(url)
         if exist(roi_path,'file')
             delete(roi_path);
         end
+        
+        rmdir(bin_dir);
     end
 
     try
