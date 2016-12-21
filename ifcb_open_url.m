@@ -1,6 +1,10 @@
 function bin = ifcb_open_url(url)
-    [namespace, lid, ~] = fileparts(url);
-    
+% Given the URL of a raw data file (any file, .adc, .roi, or .hdr),
+% return a structure representing the sample bin
+% (see ifcb_open_raw for details of the returned structure)
+% This downloads the raw files to a temporary directory and deletes
+% the temporary files upon exit.
+
     adc_url = [namespace '/' lid '.adc'];
     roi_url = [namespace '/' lid '.roi'];
     hdr_url = [namespace '/' lid '.hdr'];

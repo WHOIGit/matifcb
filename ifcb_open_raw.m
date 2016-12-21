@@ -1,4 +1,10 @@
 function bin = ifcb_open_raw(path)
+% Given the pathname of a raw data file (any file, .adc, .roi, or .hdr),
+% return a structure with the following fields:
+% - lid: the identifier of the file (path without directory or extension)
+% - adc: the ADC data as a matrix (see ifcb_columns for column IDs)
+% - images: a cell array of (unstitched) images
+
     [dir, lid, ~] = fileparts(path);
     abs_basepath = [dir filesep lid];
 

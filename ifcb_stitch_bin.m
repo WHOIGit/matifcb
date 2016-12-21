@@ -1,4 +1,13 @@
 function out_bin = ifcb_stitch_bin(in_bin, infill)
+% Given the output of ifcb_open_raw or ifcb_open_url, perform stitching
+% and return an adjusted sample bin structure (see ifcb_open_raw for
+% details) in which the 'images' field contains
+% stitched images. Also adds a field called 'stitched' which lists the
+% ROI numbers of stitched, infilled images (see ifcb_infill_image
+% for details on infilling)
+% An optional second argument can be set to 'noinfill' which leaves
+% missing data as NaNs.
+
     if nargin < 2
         infill = 1;
     elseif strcmp(infill,'noinfill')

@@ -1,4 +1,7 @@
 function cols = ifcb_columns(path)
+% Given a path or URL of an IFCB raw data file, return a structure
+% with constants identifying the ADC columns of that data.
+
     s1 = struct();
     s1.TRIGGER = 1;
     s1.PROCESSING_END_TIME = 2;
